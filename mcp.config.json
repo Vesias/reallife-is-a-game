@@ -1,0 +1,429 @@
+{
+  "name": "lifequest-mcp-server",
+  "version": "1.0.0",
+  "description": "LifeQuest MCP Server - Real-Life Agent ID Connector with AI Integration",
+  "author": "LifeQuest Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/lifequest.git"
+  },
+  "server": {
+    "host": "localhost",
+    "port": 8000,
+    "cors": {
+      "enabled": true,
+      "origins": [
+        "http://localhost:3000", 
+        "https://your-lifequest-domain.com",
+        "https://*.vercel.app"
+      ]
+    },
+    "security": {
+      "apiKeyRequired": true,
+      "rateLimiting": {
+        "windowMs": 900000,
+        "maxRequests": 1000
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "quests",
+      "description": "User quests with progress tracking and AI coaching",
+      "uri": "lifequest://quests/{id}",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "agents", 
+      "description": "AI agent configurations and specializations",
+      "uri": "lifequest://agents/{id}",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "crew",
+      "description": "Team collaboration and shared quests",
+      "uri": "lifequest://crew/{id}",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "progress",
+      "description": "User progress analytics and insights",
+      "uri": "lifequest://progress/{user_id}",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "templates",
+      "description": "Quest templates and community patterns",
+      "uri": "lifequest://templates/{category}",
+      "mimeType": "application/json"
+    }
+  ],
+  "tools": [
+    {
+      "name": "create_quest",
+      "description": "Create a new quest with AI-powered optimization and structure",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { 
+            "type": "string", 
+            "minLength": 3,
+            "maxLength": 100,
+            "description": "Quest title"
+          },
+          "description": { 
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Detailed quest description"
+          },
+          "category": { 
+            "type": "string",
+            "enum": ["learning", "fitness", "career", "creative", "habits", "social", "financial"],
+            "description": "Quest category"
+          },
+          "difficulty": { 
+            "type": "string", 
+            "enum": ["easy", "medium", "hard", "epic"],
+            "default": "medium",
+            "description": "Quest difficulty level"
+          },
+          "xp_reward": { 
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000,
+            "description": "XP points awarded upon completion"
+          },
+          "duration_days": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 365,
+            "description": "Expected quest duration in days"
+          },
+          "ai_coaching": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable AI coaching for this quest"
+          }
+        },
+        "required": ["title", "description", "category"]
+      }
+    },
+    {
+      "name": "update_progress",
+      "description": "Update quest progress with AI validation and insights",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "quest_id": { 
+            "type": "string",
+            "format": "uuid",
+            "description": "Quest identifier"
+          },
+          "progress": { 
+            "type": "number", 
+            "minimum": 0, 
+            "maximum": 100,
+            "description": "Progress percentage (0-100)"
+          },
+          "notes": { 
+            "type": "string",
+            "maxLength": 500,
+            "description": "Progress notes or achievements"
+          },
+          "evidence": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["text", "image", "code", "file", "url"]
+              },
+              "content": {
+                "type": "string",
+                "description": "Evidence content or reference"
+              }
+            },
+            "description": "Evidence of progress completion"
+          }
+        },
+        "required": ["quest_id", "progress"]
+      }
+    },
+    {
+      "name": "spawn_agent",
+      "description": "Create specialized AI agent for quest assistance and coaching",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": { 
+            "type": "string", 
+            "enum": ["coach", "analyst", "tracker", "motivator", "strategist", "validator"],
+            "description": "Agent specialization type"
+          },
+          "specialization": { 
+            "type": "string",
+            "maxLength": 200,
+            "description": "Specific domain or skill specialization"
+          },
+          "quest_id": { 
+            "type": "string",
+            "format": "uuid",
+            "description": "Associated quest identifier"
+          },
+          "personality": {
+            "type": "string",
+            "enum": ["supportive", "challenging", "analytical", "creative", "pragmatic"],
+            "default": "supportive",
+            "description": "Agent personality style"
+          },
+          "context": {
+            "type": "object",
+            "description": "Additional context for agent initialization"
+          }
+        },
+        "required": ["type", "specialization"]
+      }
+    },
+    {
+      "name": "execute_code",
+      "description": "Execute code through E2B code interpreter with safety validation",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "language": { 
+            "type": "string", 
+            "enum": ["python", "javascript", "typescript", "bash", "sql", "r"],
+            "description": "Programming language"
+          },
+          "code": { 
+            "type": "string",
+            "maxLength": 50000,
+            "description": "Code to execute"
+          },
+          "context": { 
+            "type": "object",
+            "properties": {
+              "quest_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "user_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "environment": {
+                "type": "string",
+                "enum": ["sandbox", "quest", "learning"],
+                "default": "sandbox"
+              }
+            },
+            "description": "Execution context and metadata"
+          },
+          "timeout": {
+            "type": "number",
+            "minimum": 1000,
+            "maximum": 300000,
+            "default": 30000,
+            "description": "Execution timeout in milliseconds"
+          }
+        },
+        "required": ["language", "code"]
+      }
+    },
+    {
+      "name": "analyze_habits",
+      "description": "Analyze user habits and suggest quest optimizations",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "user_id": { 
+            "type": "string",
+            "format": "uuid",
+            "description": "User identifier"
+          },
+          "timeframe": { 
+            "type": "string", 
+            "enum": ["week", "month", "quarter", "year"],
+            "default": "month",
+            "description": "Analysis timeframe"
+          },
+          "categories": { 
+            "type": "array", 
+            "items": { "type": "string" },
+            "description": "Specific categories to analyze"
+          },
+          "include_predictions": {
+            "type": "boolean",
+            "default": true,
+            "description": "Include AI predictions for future performance"
+          }
+        },
+        "required": ["user_id"]
+      }
+    },
+    {
+      "name": "crew_coordination",
+      "description": "Coordinate crew activities and shared quest management",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "crew_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Crew identifier"
+          },
+          "action": {
+            "type": "string",
+            "enum": ["create_shared_quest", "assign_roles", "sync_progress", "generate_report"],
+            "description": "Coordination action to perform"
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "user_id": {"type": "string", "format": "uuid"},
+                "role": {"type": "string"}
+              }
+            },
+            "description": "Crew participants and their roles"
+          },
+          "quest_data": {
+            "type": "object",
+            "description": "Quest data for crew coordination"
+          }
+        },
+        "required": ["crew_id", "action"]
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "name": "quest_coach",
+      "description": "AI prompt for quest creation, optimization, and coaching guidance",
+      "arguments": [
+        {
+          "name": "user_goals",
+          "description": "User's stated goals and preferences",
+          "required": true
+        },
+        {
+          "name": "current_skills",
+          "description": "User's current skill levels and experience",
+          "required": false
+        },
+        {
+          "name": "time_availability",
+          "description": "Available time commitment for quest completion",
+          "required": false
+        },
+        {
+          "name": "difficulty_preference", 
+          "description": "Preferred difficulty level (easy/medium/hard/epic)",
+          "required": false
+        },
+        {
+          "name": "learning_style",
+          "description": "Preferred learning and working style",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "progress_analyzer",
+      "description": "AI prompt for analyzing quest progress and providing insights",
+      "arguments": [
+        {
+          "name": "quest_data",
+          "description": "Current quest information and progress",
+          "required": true
+        },
+        {
+          "name": "user_history",
+          "description": "User's historical performance data",
+          "required": false
+        },
+        {
+          "name": "challenges",
+          "description": "Current challenges or blockers",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "habit_optimizer",
+      "description": "AI prompt for habit analysis and optimization recommendations",
+      "arguments": [
+        {
+          "name": "habit_data",
+          "description": "User's habit tracking data and patterns",
+          "required": true
+        },
+        {
+          "name": "goal_alignment",
+          "description": "How habits align with stated goals",
+          "required": false
+        },
+        {
+          "name": "environmental_factors",
+          "description": "Environmental and contextual factors",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "crew_facilitator",
+      "description": "AI prompt for facilitating crew collaboration and shared quests",
+      "arguments": [
+        {
+          "name": "crew_members",
+          "description": "Information about crew members and their skills",
+          "required": true
+        },
+        {
+          "name": "shared_goals",
+          "description": "Crew's shared objectives and missions",
+          "required": true
+        },
+        {
+          "name": "collaboration_style",
+          "description": "Preferred collaboration approach",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "notifications": {
+    "webhooks": [
+      {
+        "name": "quest_completed",
+        "url": "${WEBHOOK_URL}/quest-completed",
+        "events": ["quest.completed", "milestone.achieved"]
+      },
+      {
+        "name": "agent_insights",
+        "url": "${WEBHOOK_URL}/agent-insights", 
+        "events": ["agent.analysis_ready", "habit.pattern_detected"]
+      }
+    ],
+    "realtime": {
+      "enabled": true,
+      "channels": ["quest_updates", "crew_activity", "agent_notifications"]
+    }
+  },
+  "integrations": {
+    "supabase": {
+      "enabled": true,
+      "tables": ["user_quests", "quest_progress", "ai_agents", "crew_members"]
+    },
+    "e2b": {
+      "enabled": true,
+      "template": "lifequest-base",
+      "timeout": 60000
+    },
+    "claude": {
+      "enabled": true,
+      "model": "claude-3-5-sonnet-20241022"
+    }
+  }
+}
