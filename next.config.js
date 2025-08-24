@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // Enable strict type checking - temporarily allow errors for demo
-    ignoreBuildErrors: true,
+    // Enable strict type checking
+    ignoreBuildErrors: false,
   },
   eslint: {
-    // Enable ESLint during builds - temporarily disabled for demo
-    ignoreDuringBuilds: true,
+    // Enable ESLint during builds
+    ignoreDuringBuilds: false,
   },
   images: {
     remotePatterns: [

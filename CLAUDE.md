@@ -68,6 +68,13 @@ LifeQuest integrates the latest AI models and technologies to create the most ad
 - **[Model Selection Guide](docs/MODEL_SELECTION_GUIDE.md)** - Choose the right AI for each task
 - **[AI API Endpoints](docs/API_ENDPOINTS_AI.md)** - Complete API reference
 
+### **🎤 Voice AI Integration (NEW!):**
+- **[ElevenLabs Voice Setup](docs/ELEVENLABS_INTEGRATION.md)** - Complete voice AI integration
+- **[Voice Features Guide](docs/VOICE_FEATURES.md)** - Quest narration, digital agent voices
+- **[Voice API Documentation](docs/VOICE_API_ENDPOINTS.md)** - Voice-enhanced endpoints
+- **🗣️ German-First Voice Experience**: Native German digital agents with regional dialects
+- **🎵 Dynamic Audio**: Quest music, sound effects, personalized voice coaching
+
 ---
 
 ## 🎮 The LifeQuest Concept

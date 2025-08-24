@@ -67,10 +67,12 @@ export default function CreateQuestPage() {
 
     const questData = {
       ...formData,
-      xpReward: calculateXpReward(formData.difficulty, formData.isDaily),
+      category: formData.category as 'health' | 'career' | 'learning' | 'social' | 'personal' | 'financial',
+      xpReward: calculateXpReward(formData.difficulty as 1 | 2 | 3 | 4 | 5, formData.isDaily),
       createdAt: new Date(),
       status: 'active' as const,
-      progress: 0
+      progress: 0,
+      completedMilestones: []
     };
 
     try {

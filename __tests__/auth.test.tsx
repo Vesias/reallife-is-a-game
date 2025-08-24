@@ -9,28 +9,8 @@ import '@testing-library/jest-dom'
 import { AuthForm } from '@/components/auth/auth-form'
 import { useAuth } from '@/hooks/use-auth'
 
-// Mock Supabase client
-const mockSupabase = {
-  auth: {
-    getUser: jest.fn(),
-    signInWithPassword: jest.fn(),
-    signUp: jest.fn(),
-    signOut: jest.fn(),
-    onAuthStateChange: jest.fn(() => ({
-      data: { subscription: { unsubscribe: jest.fn() } }
-    }))
-  }
-}
-
-jest.mock('@/lib/supabase', () => ({
-  createClientSupabase: () => mockSupabase
-}))
-
-// Mock Lucide React icons
-jest.mock('lucide-react', () => ({
-  Loader2: ({ className }: { className?: string }) => 
-    <div className={className} data-testid="loader" />
-}))
+// Use global mocks from setup
+const mockSupabase = global.mockSupabase
 
 describe('AuthForm Component', () => {
   beforeEach(() => {

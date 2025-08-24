@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import type { 
+  CodeExecutionRequest, 
+  CodeExecutionResponse, 
+  CodeExecutionErrorResponse,
+  RateLimitInfo 
+} from '@/types/api'
+
+export const runtime = 'nodejs' // Force Node.js runtime for Supabase and E2B compatibility
 
 // Rate limiting store (in production, use Redis or a database)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>()
@@ -101,8 +109,8 @@ async function executeCode(code: string, sessionID: string) {
     // Format the results
     const results = {
       results: execution.results || [],
-      stdout: execution.logs?.stdout || '',
-      stderr: execution.logs?.stderr || '',
+      stdout: Array.isArray(execution.logs?.stdout) ? execution.logs.stdout : [execution.logs?.stdout || ''],
+      stderr: Array.isArray(execution.logs?.stderr) ? execution.logs.stderr : [execution.logs?.stderr || ''],
       error: execution.error || null,
       sessionId: sandbox.sandboxId,
     }
@@ -121,7 +129,7 @@ async function executeCode(code: string, sessionID: string) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse<CodeExecutionResponse | CodeExecutionErrorResponse>> {
   try {
     // Get client IP for logging
     const clientIP = request.headers.get('x-forwarded-for') || 
@@ -171,7 +179,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get request body
-    const { code, sessionId } = await request.json()
+    const { code, sessionId }: CodeExecutionRequest = await request.json()
 
     // Validate input
     if (!code || typeof code !== 'string') {

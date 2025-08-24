@@ -20,7 +20,7 @@ import {
 
 interface ActivityItem {
   id: string;
-  type: 'quest_completed' | 'member_joined' | 'level_up' | 'achievement' | 'message' | 'quest_created';
+  type: 'quest_completed' | 'member_joined' | 'member_left' | 'level_up' | 'achievement' | 'message' | 'quest_created' | 'crew_updated';
   userId: string;
   userName: string;
   userAvatar?: string;

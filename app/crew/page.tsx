@@ -36,7 +36,7 @@ export default function CrewPage() {
   const stats = {
     totalCrews: crews?.length || 0,
     leadingCrews: crews?.filter(crew => crew.leaderId === user.id).length || 0,
-    totalMembers: crews?.reduce((acc, crew) => acc + crew.memberCount, 0) || 0
+    totalMembers: crews?.reduce((acc, crew) => acc + (crew.memberCount || 0), 0) || 0
   };
 
   return (

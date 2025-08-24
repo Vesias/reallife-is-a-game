@@ -22,7 +22,7 @@ export const useTranslation = (ns: string | string[] = defaultNS) => {
 
 // Simple Trans component
 export const Trans = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>
+  return React.createElement(React.Fragment, null, children)
 }
 
 // Placeholder for server-side translations

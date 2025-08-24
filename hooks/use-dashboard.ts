@@ -85,13 +85,7 @@ interface ProgressData {
   }>;
 }
 
-interface ActivityItem {
-  id: string;
-  type: 'goal_completed' | 'habit_logged' | 'achievement_earned' | 'level_up' | 'streak_milestone' | 'quest_started' | 'crew_joined' | 'skill_unlocked';
-  title: string;
-  description: string;
-  timestamp: Date;
-  xp?: number;
+// Using ActivityItem from types/index.ts to avoid conflicts
   category?: string;
   metadata?: Record<string, any>;
   priority: 'low' | 'medium' | 'high';

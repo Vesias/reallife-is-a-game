@@ -7,64 +7,14 @@ import { NextRequest } from 'next/server'
 import { GET, PUT, DELETE } from '@/app/api/user/route'
 import { GET as AuthCallbackGET, POST as AuthCallbackPOST } from '@/app/api/auth/callback/route'
 
-// Mock Next.js cookies
-const mockCookies = {
-  get: jest.fn(),
-  set: jest.fn(),
-  delete: jest.fn()
-}
+// Use global mocks from setup
 
-jest.mock('next/headers', () => ({
-  cookies: () => mockCookies
-}))
-
-// Mock Supabase SSR client
-const mockSupabaseSSR = {
-  auth: {
-    getUser: jest.fn(),
-    exchangeCodeForSession: jest.fn(),
-    signOut: jest.fn(),
-    admin: {
-      deleteUser: jest.fn()
-    }
-  },
-  from: jest.fn(() => mockSupabaseSSR),
-  select: jest.fn(() => mockSupabaseSSR),
-  eq: jest.fn(() => mockSupabaseSSR),
-  single: jest.fn(),
-  update: jest.fn(() => mockSupabaseSSR)
-}
-
-// Mock the SSR module if available, otherwise mock as empty
-jest.mock('@supabase/ssr', () => {
-  try {
-    return {
-      createServerClient: jest.fn(() => mockSupabaseSSR)
-    }
-  } catch {
-    return {}
-  }
-}, { virtual: true })
-
-// Mock environment variables
-const originalEnv = process.env
-beforeAll(() => {
-  process.env = {
-    ...originalEnv,
-    NEXT_PUBLIC_SUPABASE_URL: 'https://test.supabase.co',
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: 'test-anon-key',
-    SUPABASE_SERVICE_ROLE_KEY: 'test-service-key'
-  }
-})
-
-afterAll(() => {
-  process.env = originalEnv
-})
+// Get mock from global setup
+const mockSupabaseSSR = global.mockSupabase
 
 describe('/api/user - User Profile API', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    mockCookies.get.mockReturnValue({ value: 'test-cookie' })
   })
 
   describe('GET /api/user', () => {

@@ -19,6 +19,11 @@ Welcome to the comprehensive documentation for LifeQuest - the open-source gamif
 - **[📊 Model Selection Guide](MODEL_SELECTION_GUIDE.md)** - Choose the right AI model
 - **[🔗 AI API Endpoints](API_ENDPOINTS_AI.md)** - Complete API reference
 
+### Voice AI Features (NEW!)
+- **[🎤 ElevenLabs Integration](ELEVENLABS_INTEGRATION.md)** - Complete voice AI setup and configuration
+- **[🗣️ Voice Features Guide](VOICE_FEATURES.md)** - Quest narration, agent voices, voice commands
+- **[🔊 Voice API Endpoints](VOICE_API_ENDPOINTS.md)** - Voice-enhanced API documentation
+
 ### Key AI Capabilities
 | Model | Use Case | Cost | Context |
 |-------|----------|------|---------|

@@ -1,10 +1,18 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { cookies } from 'next/headers'
+import type { 
+  UserApiResponse, 
+  UpdateUserProfileRequest, 
+  UpdateUserProfileResponse,
+  ApiErrorResponse 
+} from '@/types/api'
+
+export const runtime = 'nodejs' // Force Node.js runtime for Supabase compatibility
 
 // GET /api/user - Get current user profile
-export async function GET(request: NextRequest) {
-  const cookieStore = cookies()
+export async function GET(request: NextRequest): Promise<NextResponse<UserApiResponse | ApiErrorResponse>> {
+  const cookieStore = await cookies()
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,7 +34,11 @@ export async function GET(request: NextRequest) {
 
     if (userError || !user) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { 
+          success: false,
+          error: 'Unauthorized',
+          statusCode: 401
+        },
         { status: 401 }
       )
     }
@@ -41,7 +53,11 @@ export async function GET(request: NextRequest) {
     if (profileError && profileError.code !== 'PGRST116') {
       console.error('Profile fetch error:', profileError)
       return NextResponse.json(
-        { error: 'Failed to fetch profile' },
+        { 
+          success: false,
+          error: 'Failed to fetch profile',
+          statusCode: 500
+        },
         { status: 500 }
       )
     }
@@ -59,15 +75,19 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('User API error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        success: false,
+        error: 'Internal server error',
+        statusCode: 500
+      },
       { status: 500 }
     )
   }
 }
 
-// PUT /api/user - Update user profile
-export async function PUT(request: NextRequest) {
-  const cookieStore = cookies()
+// PUT /api/user - Update user profile  
+export async function PUT(request: NextRequest): Promise<NextResponse<UpdateUserProfileResponse | ApiErrorResponse>> {
+  const cookieStore = await cookies()
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -89,18 +109,26 @@ export async function PUT(request: NextRequest) {
 
     if (userError || !user) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { 
+          success: false,
+          error: 'Unauthorized',
+          statusCode: 401
+        },
         { status: 401 }
       )
     }
 
-    const body = await request.json()
+    const body: UpdateUserProfileRequest = await request.json()
     const { full_name, username, website, avatar_url } = body
 
     // Validate input
     if (username && username.length < 3) {
       return NextResponse.json(
-        { error: 'Username must be at least 3 characters' },
+        { 
+          success: false,
+          error: 'Username must be at least 3 characters',
+          statusCode: 400
+        },
         { status: 400 }
       )
     }
@@ -122,7 +150,11 @@ export async function PUT(request: NextRequest) {
     if (error) {
       console.error('Profile update error:', error)
       return NextResponse.json(
-        { error: 'Failed to update profile' },
+        { 
+          success: false,
+          error: 'Failed to update profile',
+          statusCode: 500
+        },
         { status: 500 }
       )
     }
@@ -134,15 +166,19 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     console.error('Profile update API error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        success: false,
+        error: 'Internal server error',
+        statusCode: 500
+      },
       { status: 500 }
     )
   }
 }
 
 // DELETE /api/user - Delete user account
-export async function DELETE(request: NextRequest) {
-  const cookieStore = cookies()
+export async function DELETE(request: NextRequest): Promise<NextResponse<{ message: string } | ApiErrorResponse>> {
+  const cookieStore = await cookies()
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -164,7 +200,11 @@ export async function DELETE(request: NextRequest) {
 
     if (userError || !user) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { 
+          success: false,
+          error: 'Unauthorized',
+          statusCode: 401
+        },
         { status: 401 }
       )
     }
@@ -175,7 +215,11 @@ export async function DELETE(request: NextRequest) {
     if (error) {
       console.error('User deletion error:', error)
       return NextResponse.json(
-        { error: 'Failed to delete account' },
+        { 
+          success: false,
+          error: 'Failed to delete account',
+          statusCode: 500
+        },
         { status: 500 }
       )
     }
@@ -186,7 +230,11 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     console.error('Delete user API error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        success: false,
+        error: 'Internal server error',
+        statusCode: 500
+      },
       { status: 500 }
     )
   }

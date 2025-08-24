@@ -104,6 +104,7 @@ export default function CreateCrewPage() {
     try {
       const crew = await createCrew({
         ...formData,
+        type: formData.type as 'learning' | 'social' | 'creative' | 'fitness' | 'productivity' | 'general',
         leaderId: user.id,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
