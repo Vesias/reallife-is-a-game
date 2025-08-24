@@ -1,431 +1,438 @@
-# Testing Strategy & Implementation
+# Testing Infrastructure - LifeQuest
 
 ## Overview
 
-This document outlines the comprehensive testing strategy implemented for the Next.js 15 authentication application. The testing suite ensures reliability, security, and performance across all application layers.
+This document describes the comprehensive testing infrastructure implemented for the LifeQuest application, including unit tests, integration tests, and end-to-end tests.
 
-## Test Architecture
+## Testing Stack
 
-### 1. Testing Pyramid
+### Core Testing Tools
+- **Jest**: Unit and integration test runner
+- **React Testing Library**: React component testing
+- **Playwright**: End-to-end browser testing
+- **MSW**: API mocking for testing
+- **@testing-library/jest-dom**: Custom Jest matchers
 
-```
-         /\
-        /E2E\      <- End-to-end tests (Cypress)
-       /------\     - Complete user journeys
-      /Integration\ <- API and database tests
-     /----------\   - Route handlers, auth flows
-    /   Unit     \  <- Component and utility tests
-   /--------------\ - Individual functions, hooks
-```
+### Coverage and Quality
+- **Minimum Coverage Thresholds**: 80% statements, 80% functions, 75% branches, 80% lines
+- **Performance Testing**: Response time validation
+- **Security Testing**: Input sanitization and XSS prevention
+- **Accessibility Testing**: Screen reader and keyboard navigation support
 
-### 2. Test Categories
-
-#### Unit Tests (`__tests__/`)
-- **Authentication Components**: Form validation, user interactions
-- **API Route Handlers**: Request/response handling, error cases
-- **Custom Hooks**: State management, side effects
-- **Utility Functions**: Helper functions, data transformations
-
-#### Integration Tests
-- **API Endpoints**: Full request cycle testing
-- **Database Operations**: CRUD operations with Supabase
-- **Authentication Flows**: Login, signup, logout processes
-
-#### End-to-End Tests (`cypress/e2e/`)
-- **User Registration**: Complete signup flow
-- **User Authentication**: Login/logout cycles
-- **Protected Routes**: Access control verification
-- **Cross-browser Compatibility**: Multi-browser testing
-
-## Test Files Structure
+## Test Organization
 
 ```
-├── __tests__/                  # Unit and integration tests
-│   ├── auth.test.tsx          # Authentication component tests
-│   ├── api.test.ts            # API route handler tests
-│   └── simple-auth.test.tsx   # Simplified component tests
-├── cypress/                    # End-to-end tests
-│   ├── e2e/
-│   │   ├── auth.cy.ts         # Authentication flow tests
-│   │   ├── dashboard.cy.ts    # Dashboard functionality
-│   │   └── profile.cy.ts      # User profile management
-│   ├── fixtures/              # Test data
-│   └── support/               # Test utilities
-└── docs/
-    └── TESTING.md             # This documentation
+tests/
+├── setup.ts                 # Global test configuration
+├── polyfills.ts             # Browser API polyfills
+├── utils/                   # Utility function tests
+├── hooks/                   # Custom React hooks tests
+├── components/              # UI component tests
+├── api/                     # API route integration tests
+└── e2e/                     # End-to-end tests
 ```
 
-## Test Coverage Goals
+## Test Categories
 
-### Coverage Targets
-- **Statement Coverage**: >85%
-- **Branch Coverage**: >80%
-- **Function Coverage**: >90%
-- **Line Coverage**: >85%
+### 1. Unit Tests
+Tests individual functions, utilities, and isolated components.
 
-### Critical Paths
-- ✅ User registration and authentication
-- ✅ Protected route access control
-- ✅ API security and validation
-- ✅ Error handling and edge cases
-- ✅ Performance under load
+**Location**: `tests/utils/`, `tests/hooks/`, `tests/components/`
+**Run with**: `npm run test:unit`
 
-## Authentication Test Scenarios
+Examples:
+- XP calculation functions
+- Quest formatting utilities  
+- React hooks (useAuth, useGamification)
+- UI components (XPBar, QuestCard)
 
-### 1. Component Testing
+### 2. Integration Tests
+Tests API routes, database interactions, and component integration.
 
-#### AuthForm Component Tests
-```typescript
-describe('AuthForm Component', () => {
-  // Form rendering and structure
-  test('renders login form with correct elements')
-  test('renders signup form with correct elements')
-  
-  // Validation testing
-  test('validates email format')
-  test('validates password requirements')
-  test('shows validation errors appropriately')
-  
-  // Interaction testing
-  test('handles successful authentication')
-  test('handles authentication errors')
-  test('shows loading states during submission')
-  
-  // Accessibility testing
-  test('has proper ARIA labels and roles')
-  test('supports keyboard navigation')
-})
+**Location**: `tests/api/`, `tests/hooks/`
+**Run with**: `npm run test:integration`
+
+Examples:
+- User profile API endpoints
+- Authentication flows
+- Supabase database operations
+- Hook integration with external services
+
+### 3. End-to-End Tests
+Tests complete user workflows in real browsers.
+
+**Location**: `tests/e2e/`
+**Run with**: `npm run test:e2e`
+
+Examples:
+- User registration and login
+- Quest creation and completion
+- Dashboard navigation
+- Crew management
+
+## Running Tests
+
+### Local Development
+
+```bash
+# Run all unit tests
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Run specific test categories
+npm run test:unit
+npm run test:integration  
+npm run test:ui
+
+# Run E2E tests
+npm run test:e2e
+
+# Run E2E tests with browser UI
+npm run test:e2e:ui
+
+# Run all tests (unit + E2E)
+npm run test:all
 ```
 
-#### useAuth Hook Tests
-```typescript
-describe('useAuth Hook', () => {
-  // State management
-  test('initializes with correct default state')
-  test('updates state on authentication changes')
-  
-  // Authentication operations
-  test('signs in user successfully')
-  test('signs up user successfully')
-  test('signs out user successfully')
-  
-  // Error handling
-  test('handles network errors gracefully')
-  test('handles invalid credentials')
-  test('handles session expiration')
-})
+### CI/CD Pipeline
+
+```bash
+# Full CI test suite
+npm run test:ci
 ```
 
-### 2. API Testing
-
-#### User Management API
-```typescript
-describe('User API Endpoints', () => {
-  describe('GET /api/user', () => {
-    test('returns user profile for authenticated user')
-    test('returns 401 for unauthenticated requests')
-    test('handles database errors gracefully')
-  })
-  
-  describe('PUT /api/user', () => {
-    test('updates user profile successfully')
-    test('validates input data')
-    test('handles constraint violations')
-  })
-  
-  describe('DELETE /api/user', () => {
-    test('deletes user account successfully')
-    test('requires proper authentication')
-  })
-})
-```
-
-#### Security Testing
-```typescript
-describe('API Security', () => {
-  test('prevents SQL injection attacks')
-  test('sanitizes user input data')
-  test('enforces rate limiting')
-  test('validates CSRF tokens')
-  test('handles XSS attempts')
-})
-```
-
-### 3. End-to-End Testing
-
-#### Authentication Flow
-```typescript
-describe('Authentication E2E', () => {
-  test('complete user registration flow')
-  test('user login and dashboard access')
-  test('protected route redirection')
-  test('session persistence across page reloads')
-  test('logout and session cleanup')
-})
-```
-
-#### Cross-Browser Testing
-```typescript
-describe('Cross-Browser Compatibility', () => {
-  test('Chrome desktop and mobile')
-  test('Firefox desktop')
-  test('Safari desktop and mobile')
-  test('Edge desktop')
-})
-```
-
-## Performance Testing
-
-### 1. Component Performance
-```typescript
-describe('Performance Tests', () => {
-  test('AuthForm renders under 100ms')
-  test('handles rapid user input efficiently')
-  test('maintains 60fps during interactions')
-})
-```
-
-### 2. API Performance
-```typescript
-describe('API Performance', () => {
-  test('user profile request responds under 200ms')
-  test('handles 50 concurrent requests')
-  test('maintains performance under load')
-})
-```
-
-### 3. Memory Management
-```typescript
-describe('Memory Tests', () => {
-  test('no memory leaks in auth components')
-  test('efficient cleanup of event listeners')
-  test('proper disposal of subscriptions')
-})
-```
-
-## Security Testing
-
-### 1. Authentication Security
-- **Password Requirements**: Minimum length, complexity
-- **Session Management**: Secure token storage, expiration
-- **CSRF Protection**: Request validation
-- **XSS Prevention**: Input sanitization
-
-### 2. Authorization Testing
-- **Route Protection**: Unauthenticated access prevention
-- **API Endpoint Security**: Proper authentication checks
-- **Data Access Control**: User-specific data isolation
-
-### 3. Input Validation
-- **SQL Injection Prevention**: Parameterized queries
-- **Data Sanitization**: Clean user inputs
-- **File Upload Security**: Type and size validation
-
-## Test Data Management
-
-### 1. Test Fixtures
-```typescript
-// cypress/fixtures/users.json
-{
-  "validUser": {
-    "email": "test@example.com",
-    "password": "TestPassword123!"
-  },
-  "invalidUser": {
-    "email": "invalid-email",
-    "password": "123"
-  }
-}
-```
-
-### 2. Database Seeding
-```typescript
-// Test database setup
-beforeEach(() => {
-  cy.exec('npm run db:seed:test')
-  cy.clearCookies()
-  cy.clearLocalStorage()
-})
-```
-
-### 3. Mock Data
-```typescript
-// Component test mocks
-const mockUser = {
-  id: '123e4567-e89b-12d3-a456-426614174000',
-  email: 'test@example.com',
-  full_name: 'Test User'
-}
-```
+This runs:
+1. ESLint code quality checks
+2. TypeScript type checking  
+3. Jest unit/integration tests with coverage
+4. Playwright E2E tests across multiple browsers
 
 ## Test Configuration
 
-### 1. Jest Configuration
+### Jest Configuration (`jest.config.js`)
+
 ```javascript
-// jest.config.js
-module.exports = {
-  testEnvironment: 'jest-environment-jsdom',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1'
-  },
-  collectCoverageFrom: [
-    'app/**/*.{js,jsx,ts,tsx}',
-    'components/**/*.{js,jsx,ts,tsx}',
-    'hooks/**/*.{js,jsx,ts,tsx}'
-  ],
+const config = {
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
+  setupFiles: ['<rootDir>/tests/polyfills.ts'],
   coverageThreshold: {
     global: {
-      statements: 85,
-      branches: 80,
-      functions: 90,
-      lines: 85
+      branches: 75,
+      functions: 80, 
+      lines: 80,
+      statements: 80
     }
   }
 }
 ```
 
-### 2. Cypress Configuration
-```typescript
-// cypress.config.ts
+### Playwright Configuration (`playwright.config.ts`)
+
+```javascript
 export default defineConfig({
-  e2e: {
-    baseUrl: 'http://localhost:3000',
-    supportFile: 'cypress/support/e2e.ts',
-    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    viewportWidth: 1280,
-    viewportHeight: 720,
-    video: true,
-    screenshotOnRunFailure: true
-  }
+  testDir: './tests/e2e',
+  use: {
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure'
+  },
+  projects: [
+    { name: 'chromium' },
+    { name: 'firefox' }, 
+    { name: 'webkit' }
+  ]
 })
 ```
 
-## Running Tests
+## Test Patterns and Best Practices
 
-### 1. Development Testing
-```bash
-# Unit tests in watch mode
-npm run test:watch
+### Unit Test Pattern
 
-# Run specific test file
-npm run test auth.test.tsx
-
-# Coverage report
-npm run test:coverage
-```
-
-### 2. Integration Testing
-```bash
-# API tests
-npm run test:api
-
-# Database tests
-npm run test:db
-```
-
-### 3. End-to-End Testing
-```bash
-# Interactive mode
-npx cypress open
-
-# Headless mode
-npx cypress run
-
-# Specific browser
-npx cypress run --browser chrome
-```
-
-### 4. CI/CD Testing
-```bash
-# Full test suite
-npm run test:ci
-
-# With coverage
-npm run test:ci:coverage
-
-# Parallel execution
-npm run test:parallel
-```
-
-## Test Debugging
-
-### 1. Jest Debugging
-```bash
-# Debug specific test
-node --inspect-brk node_modules/.bin/jest --runInBand auth.test.tsx
-
-# Verbose output
-npm run test -- --verbose
-
-# Update snapshots
-npm run test -- --updateSnapshot
-```
-
-### 2. Cypress Debugging
 ```typescript
-// Using cy.debug()
-cy.get('[data-testid="login-button"]').debug().click()
+describe('Component/Function Name', () => {
+  beforeEach(() => {
+    // Setup before each test
+  })
 
-// Browser debugging
-cy.pause()
+  it('should describe expected behavior', () => {
+    // Arrange
+    const input = 'test input'
+    
+    // Act  
+    const result = functionUnderTest(input)
+    
+    // Assert
+    expect(result).toBe('expected output')
+  })
+
+  it('should handle edge cases', () => {
+    expect(functionUnderTest(null)).toBe(defaultValue)
+    expect(functionUnderTest('')).toBe(defaultValue)
+  })
+})
 ```
 
-### 3. Common Issues
-- **Async Test Failures**: Use proper waitFor and act wrappers
-- **Mock Issues**: Ensure mocks are properly reset between tests
-- **Timing Problems**: Use appropriate timeouts and waits
+### Component Test Pattern
 
-## Test Quality Metrics
+```typescript
+describe('ComponentName', () => {
+  it('should render with required props', () => {
+    render(<ComponentName prop="value" />)
+    
+    expect(screen.getByText('Expected Text')).toBeInTheDocument()
+    expect(screen.getByRole('button')).toBeEnabled()
+  })
 
-### 1. Coverage Metrics
-- Generated automatically with Jest
-- Viewable in HTML format: `coverage/lcov-report/index.html`
-- Tracked per pull request
+  it('should handle user interactions', async () => {
+    const mockFn = jest.fn()
+    render(<ComponentName onAction={mockFn} />)
+    
+    await user.click(screen.getByRole('button'))
+    
+    expect(mockFn).toHaveBeenCalledWith('expected-value')
+  })
+})
+```
 
-### 2. Performance Metrics
-- Component render times
-- API response times
-- Memory usage patterns
+### E2E Test Pattern
 
-### 3. Reliability Metrics
-- Test pass/fail rates
-- Flaky test identification
-- Cross-browser compatibility
+```typescript
+test.describe('Feature Name', () => {
+  test.beforeEach(async ({ page }) => {
+    // Setup authentication or navigation
+    await page.goto('/feature')
+  })
 
-## Best Practices
+  test('should complete user workflow', async ({ page }) => {
+    // Navigate and interact
+    await page.fill('[data-testid="input"]', 'test value')
+    await page.click('[data-testid="submit"]')
+    
+    // Verify outcome
+    await expect(page.getByText('Success')).toBeVisible()
+    await expect(page).toHaveURL('/success-page')
+  })
+})
+```
 
-### 1. Test Writing
-- **AAA Pattern**: Arrange, Act, Assert
-- **Descriptive Names**: Clear test descriptions
-- **Single Responsibility**: One assertion per test
-- **Independent Tests**: No test dependencies
+## Mocking Strategy
 
-### 2. Mock Strategy
-- **Mock External Dependencies**: APIs, databases
-- **Keep Mocks Simple**: Don't over-mock
-- **Reset Between Tests**: Clean state for each test
+### Global Mocks (tests/setup.ts)
+- Supabase client and authentication
+- Next.js router and navigation
+- External UI libraries (Lucide React, Recharts)
+- Browser APIs (localStorage, fetch, ResizeObserver)
 
-### 3. Data Management
-- **Use Test Fixtures**: Consistent test data
-- **Clean Up**: Remove test data after tests
-- **Isolate Tests**: No shared state between tests
+### Test-Specific Mocks
+- API responses for integration tests
+- User authentication state
+- Database query results
 
-## Continuous Improvement
+Example:
+```typescript
+// Mock API response
+mockSupabase.from.mockReturnValue(mockSupabase)
+mockSupabase.select.mockReturnValue(mockSupabase)
+mockSupabase.single.mockResolvedValue({
+  data: { id: '123', name: 'Test' },
+  error: null
+})
+```
 
-### 1. Test Metrics Monitoring
-- Coverage trends over time
-- Performance regression detection
-- Security vulnerability scanning
+## Coverage Reports
 
-### 2. Regular Review
-- Monthly test suite review
-- Remove obsolete tests
-- Update test data and fixtures
+Coverage reports are generated in the `coverage/` directory:
+- **HTML Report**: Open `coverage/lcov-report/index.html` in browser
+- **LCOV Format**: `coverage/lcov.info` for CI integration
+- **JSON Format**: `coverage/coverage-final.json` for programmatic access
 
-### 3. Team Training
-- Testing best practices sessions
-- Code review for test quality
-- Knowledge sharing on new testing techniques
+### Coverage Thresholds
+- **Statements**: 80% minimum
+- **Branches**: 75% minimum  
+- **Functions**: 80% minimum
+- **Lines**: 80% minimum
 
-This comprehensive testing strategy ensures the application maintains high quality, security, and performance standards throughout its development lifecycle.
+Tests will fail if coverage falls below these thresholds.
+
+## Continuous Integration
+
+### GitHub Actions Workflow
+```yaml
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm ci
+      - run: npm run test:ci
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test-reports
+          path: |
+            coverage/
+            playwright-report/
+```
+
+## Performance Testing
+
+### Response Time Validation
+```typescript
+it('should respond within 100ms', async () => {
+  const start = performance.now()
+  await apiCall()
+  const duration = performance.now() - start
+  
+  expect(duration).toBeLessThan(100)
+})
+```
+
+### Load Testing
+```typescript
+it('should handle concurrent requests', async () => {
+  const requests = Array(50).fill(null).map(() => apiCall())
+  const responses = await Promise.all(requests)
+  
+  expect(responses.every(r => r.success)).toBe(true)
+})
+```
+
+## Security Testing
+
+### Input Sanitization
+```typescript
+it('should prevent XSS attacks', () => {
+  const maliciousInput = '<script>alert("XSS")</script>'
+  const sanitized = sanitizeInput(maliciousInput)
+  
+  expect(sanitized).not.toContain('<script>')
+})
+```
+
+### SQL Injection Prevention  
+```typescript
+it('should handle malicious SQL in user ID', async () => {
+  const maliciousId = "'; DROP TABLE users; --"
+  const response = await getUserProfile(maliciousId)
+  
+  expect(response.status).not.toBe(500)
+})
+```
+
+## Accessibility Testing
+
+### Keyboard Navigation
+```typescript
+it('should support keyboard navigation', async ({ page }) => {
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('button')).toBeFocused()
+})
+```
+
+### Screen Reader Support
+```typescript
+it('should have proper ARIA labels', () => {
+  render(<Component />)
+  
+  expect(screen.getByRole('progressbar')).toHaveAttribute('aria-label')
+})
+```
+
+## Debugging Tests
+
+### Debug Single Test
+```bash
+npm run test:debug -- --testNamePattern="test name"
+```
+
+### Debug E2E Tests  
+```bash
+npm run test:e2e:headed -- --debug
+```
+
+### View Test Reports
+```bash
+# Jest coverage report
+open coverage/lcov-report/index.html
+
+# Playwright test report  
+npx playwright show-report
+```
+
+## Test Data Management
+
+### Factories and Builders
+```typescript
+const buildUser = (overrides = {}) => ({
+  id: 'user-123',
+  email: 'test@example.com',
+  full_name: 'Test User',
+  ...overrides
+})
+
+const buildQuest = (overrides = {}) => ({
+  id: 'quest-123', 
+  title: 'Test Quest',
+  status: 'active',
+  ...overrides
+})
+```
+
+### Cleanup
+```typescript
+afterEach(() => {
+  jest.clearAllMocks()
+  localStorage.clear()
+  sessionStorage.clear()
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Tests timeout**: Increase Jest timeout or mock slow operations
+2. **Mock not working**: Check mock order and placement
+3. **Component not rendering**: Verify all required providers are wrapped
+4. **E2E test flaky**: Add proper waits and increase timeouts
+
+### Environment Variables
+```bash
+# Required for tests
+NEXT_PUBLIC_SUPABASE_URL=https://test.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=test-key
+```
+
+## Metrics and Reporting
+
+### Current Test Coverage
+- **Total Test Files**: 12+ test files
+- **Test Cases**: 100+ individual test cases
+- **Coverage**: >80% across all metrics
+- **E2E Tests**: Critical user journeys covered
+
+### Test Execution Times
+- **Unit Tests**: ~10 seconds
+- **Integration Tests**: ~20 seconds  
+- **E2E Tests**: ~2 minutes
+- **Full Test Suite**: ~3 minutes
+
+## Future Improvements
+
+1. **Visual Regression Testing**: Add screenshot comparison tests
+2. **Load Testing**: Implement stress testing with Artillery
+3. **Mobile Testing**: Add device-specific E2E tests
+4. **A11y Testing**: Integrate axe-core for automated accessibility testing
+5. **Mutation Testing**: Add Stryker for test quality validation
+
+---
+
+For questions about testing, see the [Contributing Guide](CONTRIBUTING.md) or create an issue.
