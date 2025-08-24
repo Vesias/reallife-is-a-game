@@ -1,0 +1,134 @@
+{
+  "hero": {
+    "title": "Welcome to LifeQuest",
+    "subtitle": "Real Life is a Game",
+    "description": "Transform your life into an epic adventure. Create your digital agent, join crews, complete quests, and level up in both real life and the game world.",
+    "ctaPrimary": "Start Adventure",
+    "ctaSecondary": "Watch Demo",
+    "playVideo": "Play Video",
+    "heroStats": {
+      "level": "Level {{level}}",
+      "xp": "{{xp}} XP",
+      "quests": "{{count}} Quests Completed",
+      "crew": "{{count}} Crew Members"
+    }
+  },
+  "features": {
+    "title": "Features",
+    "subtitle": "Discover the Power of Gamification",
+    "description": "LifeQuest transforms everyday tasks into exciting quests and helps you achieve your goals.",
+    "digitalAgent": {
+      "title": "Digital Agent",
+      "description": "Your personal AI companion helps you plan, track, and optimize your life goals.",
+      "features": ["Smart Quest Suggestions", "Progress Tracking", "Personalized Tips", "24/7 Support"]
+    },
+    "crewSystem": {
+      "title": "Crew System",
+      "description": "Team up with friends, share goals, and motivate each other towards success.",
+      "features": ["Shared Quests", "Real-time Chat", "Progress Sharing", "Team Challenges"]
+    },
+    "questSystem": {
+      "title": "Quest System",
+      "description": "Turn boring tasks into exciting missions with rewards and progress tracking.",
+      "features": ["Personalized Quests", "Progress Tracking", "Reward System", "Difficulty Levels"]
+    },
+    "gamification": {
+      "title": "Gamification",
+      "description": "Earn XP, reach new levels, unlock badges, and climb the leaderboards.",
+      "features": ["XP and Level System", "Achievements", "Leaderboards", "Skill Trees"]
+    },
+    "aiInsights": {
+      "title": "AI Insights",
+      "description": "Get data-driven insights about your habits, progress, and optimization opportunities.",
+      "features": ["Behavior Patterns", "Progress Analytics", "Optimization Suggestions", "Predictions"]
+    },
+    "mobileFirst": {
+      "title": "Mobile-First",
+      "description": "Manage your life from anywhere with our responsive, mobile-friendly platform.",
+      "features": ["Offline Access", "Push Notifications", "Responsive Design", "Cross-Platform Sync"]
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Your Path to Gamified Life",
+    "step1": {
+      "title": "Create Agent",
+      "description": "Design your personal AI agent and define your goals and interests."
+    },
+    "step2": {
+      "title": "Join Crew",
+      "description": "Find like-minded people and join a crew or create your own."
+    },
+    "step3": {
+      "title": "Start Quests",
+      "description": "Begin with simple daily quests and work your way up to epic challenges."
+    },
+    "step4": {
+      "title": "Level Up",
+      "description": "Earn XP, reach new levels, and unlock new features and rewards."
+    }
+  },
+  "testimonials": {
+    "title": "What Our Players Say",
+    "subtitle": "Real experiences from the LifeQuest community",
+    "testimonial1": {
+      "text": "LifeQuest completely changed my productivity game. I actually look forward to my to-do list now!",
+      "author": "Sarah M.",
+      "role": "Marketing Manager",
+      "level": "Level 23",
+      "image": "/testimonials/sarah.jpg"
+    },
+    "testimonial2": {
+      "text": "The crew system is brilliant. We motivate each other daily and have completed 50+ shared quests already.",
+      "author": "Max K.",
+      "role": "Software Developer",
+      "level": "Level 31",
+      "image": "/testimonials/max.jpg"
+    },
+    "testimonial3": {
+      "text": "The AI agent gives me perfect suggestions and helps me actually achieve my goals. Game-changer!",
+      "author": "Lisa T.",
+      "role": "Student",
+      "level": "Level 18",
+      "image": "/testimonials/lisa.jpg"
+    }
+  },
+  "stats": {
+    "title": "LifeQuest by the Numbers",
+    "activeUsers": {
+      "value": "50K+",
+      "label": "Active Players"
+    },
+    "questsCompleted": {
+      "value": "2.5M+",
+      "label": "Quests Completed"
+    },
+    "crewsFormed": {
+      "value": "12K+",
+      "label": "Crews Formed"
+    },
+    "xpEarned": {
+      "value": "150M+",
+      "label": "XP Earned"
+    }
+  },
+  "cta": {
+    "title": "Ready for Your Adventure?",
+    "subtitle": "Gamify your life today",
+    "description": "Join thousands of players who have already gamified their lives and are achieving their goals.",
+    "primaryButton": "Start Free",
+    "secondaryButton": "Learn More",
+    "features": [
+      "✅ Free registration",
+      "✅ No credit card required",
+      "✅ Instant access to all core features",
+      "✅ Community support included"
+    ]
+  },
+  "navigation": {
+    "features": "Features",
+    "howItWorks": "How It Works",
+    "testimonials": "Testimonials",
+    "pricing": "Pricing"
+  }
+}

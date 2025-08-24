@@ -1,0 +1,134 @@
+{
+  "hero": {
+    "title": "Willkommen zu LifeQuest",
+    "subtitle": "Das echte Leben ist ein Spiel",
+    "description": "Verwandle dein Leben in ein episches Abenteuer. Erstelle deinen digitalen Agenten, schließe dich Crews an, erfülle Quests und level up sowohl im echten Leben als auch in der Spielwelt.",
+    "ctaPrimary": "Abenteuer starten",
+    "ctaSecondary": "Demo ansehen",
+    "playVideo": "Video abspielen",
+    "heroStats": {
+      "level": "Level {{level}}",
+      "xp": "{{xp}} XP",
+      "quests": "{{count}} Quests abgeschlossen",
+      "crew": "{{count}} Crew-Mitglieder"
+    }
+  },
+  "features": {
+    "title": "Funktionen",
+    "subtitle": "Entdecke die Macht der Gamification",
+    "description": "LifeQuest verwandelt alltägliche Aufgaben in spannende Quests und hilft dir dabei, deine Ziele zu erreichen.",
+    "digitalAgent": {
+      "title": "Digitaler Agent",
+      "description": "Dein persönlicher KI-Begleiter hilft dir bei der Planung, Verfolgung und Optimierung deiner Lebensziele.",
+      "features": ["Intelligente Questvorschläge", "Fortschrittsverfolgung", "Personalisierte Tipps", "24/7 Unterstützung"]
+    },
+    "crewSystem": {
+      "title": "Crew-System",
+      "description": "Schließe dich mit Freunden zusammen, teile Ziele und motiviert euch gegenseitig zum Erfolg.",
+      "features": ["Gemeinsame Quests", "Echtzeit-Chat", "Fortschritts-Sharing", "Team-Herausforderungen"]
+    },
+    "questSystem": {
+      "title": "Quest-System",
+      "description": "Verwandle langweilige Aufgaben in spannende Missionen mit Belohnungen und Fortschrittsmessung.",
+      "features": ["Personalisierte Quests", "Fortschrittsverfolgung", "Belohnungssystem", "Schwierigkeitsgrade"]
+    },
+    "gamification": {
+      "title": "Gamification",
+      "description": "Sammle XP, erreiche neue Level, verdiene Abzeichen und klettere in den Ranglisten nach oben.",
+      "features": ["XP und Level-System", "Errungenschaften", "Ranglisten", "Skill-Baum"]
+    },
+    "aiInsights": {
+      "title": "KI-Einblicke",
+      "description": "Erhalte datengestützte Erkenntnisse über deine Gewohnheiten, Fortschritte und Verbesserungsmöglichkeiten.",
+      "features": ["Verhaltensmuster", "Fortschrittsanalysen", "Optimierungsvorschläge", "Prognosen"]
+    },
+    "mobileFirst": {
+      "title": "Mobile-First",
+      "description": "Verwalte dein Leben von überall aus mit unserer responsiven, mobilfreundlichen Plattform.",
+      "features": ["Offline-Zugang", "Push-Benachrichtigungen", "Responsive Design", "Cross-Platform Sync"]
+    }
+  },
+  "howItWorks": {
+    "title": "So funktioniert's",
+    "subtitle": "Dein Weg zum gamifizierten Leben",
+    "step1": {
+      "title": "Agent erstellen",
+      "description": "Gestalte deinen persönlichen KI-Agenten und definiere deine Ziele und Interessen."
+    },
+    "step2": {
+      "title": "Crew beitreten",
+      "description": "Finde Gleichgesinnte und schließe dich einer Crew an oder erstelle deine eigene."
+    },
+    "step3": {
+      "title": "Quests beginnen",
+      "description": "Starte mit einfachen täglichen Quests und arbeite dich zu epischen Herausforderungen vor."
+    },
+    "step4": {
+      "title": "Level up",
+      "description": "Sammle XP, erreiche neue Level und schalte neue Funktionen und Belohnungen frei."
+    }
+  },
+  "testimonials": {
+    "title": "Was unsere Spieler sagen",
+    "subtitle": "Echte Erfahrungen von der LifeQuest-Community",
+    "testimonial1": {
+      "text": "LifeQuest hat mein Produktivitätsspiel komplett verändert. Ich freue mich jetzt tatsächlich auf meine To-Do-Liste!",
+      "author": "Sarah M.",
+      "role": "Marketing Managerin",
+      "level": "Level 23",
+      "image": "/testimonials/sarah.jpg"
+    },
+    "testimonial2": {
+      "text": "Das Crew-System ist genial. Wir motivieren uns gegenseitig jeden Tag und haben bereits 50+ gemeinsame Quests abgeschlossen.",
+      "author": "Max K.",
+      "role": "Software-Entwickler",
+      "level": "Level 31",
+      "image": "/testimonials/max.jpg"
+    },
+    "testimonial3": {
+      "text": "Der KI-Agent gibt mir perfekte Vorschläge und hilft mir dabei, meine Ziele tatsächlich zu erreichen. Game-Changer!",
+      "author": "Lisa T.",
+      "role": "Studentin",
+      "level": "Level 18",
+      "image": "/testimonials/lisa.jpg"
+    }
+  },
+  "stats": {
+    "title": "LifeQuest in Zahlen",
+    "activeUsers": {
+      "value": "50K+",
+      "label": "Aktive Spieler"
+    },
+    "questsCompleted": {
+      "value": "2.5M+",
+      "label": "Abgeschlossene Quests"
+    },
+    "crewsFormed": {
+      "value": "12K+",
+      "label": "Crews gebildet"
+    },
+    "xpEarned": {
+      "value": "150M+",
+      "label": "XP verdient"
+    }
+  },
+  "cta": {
+    "title": "Bereit für dein Abenteuer?",
+    "subtitle": "Verwandle dein Leben noch heute in ein Spiel",
+    "description": "Schließe dich Tausenden von Spielern an, die bereits ihr Leben gamifiziert haben und ihre Ziele erreichen.",
+    "primaryButton": "Kostenlos starten",
+    "secondaryButton": "Mehr erfahren",
+    "features": [
+      "✅ Kostenlose Registrierung",
+      "✅ Keine Kreditkarte erforderlich",
+      "✅ Sofortiger Zugang zu allen Grundfunktionen",
+      "✅ Community-Support inklusive"
+    ]
+  },
+  "navigation": {
+    "features": "Funktionen",
+    "howItWorks": "So funktioniert's",
+    "testimonials": "Erfahrungen",
+    "pricing": "Preise"
+  }
+}
